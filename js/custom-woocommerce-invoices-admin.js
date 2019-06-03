@@ -1,19 +1,17 @@
-<?php
-/*
-Plugin Name: Custom Woocommerce Invoices
-Plugin URI: http://www.robertochoa.com.ve/
-Author: Robert Ochoa
-Author URI: http://www.robertochoa.com.ve/
-Description: Plugin para manejar archivos dentro de cada pedido en Woocommerce
-Version: 1.0
-License: GNU General Public License v2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
-Text Domain: cwoocommerce_invonces
-Domain Path: /lang
-*/
-
-if ( !defined( 'ABSPATH' ) ) {
-    die( 'Direct access is forbidden.' );
-}
-/* THEME VARIABLES */
-$plugin_suffix = 'cwoocommerce_invonces';
+jQuery(document).ready(function() {
+    var $ = jQuery;
+    if ($('.cwoo_add_documents').length > 0) {
+        if ( typeof wp !== 'undefined' && wp.media && wp.media.editor) {
+            $(document).on('click', '.cwoo_add_documents', function(e) {
+                e.preventDefault();
+                var button = $(this);
+                var id = button.prev();
+                wp.media.editor.send.attachment = function(props, attachment) {
+                    id.val(attachment.id);
+                };
+                wp.media.editor.open(button);
+                return false;
+            });
+        }
+    }
+});

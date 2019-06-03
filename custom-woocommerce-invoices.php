@@ -24,8 +24,9 @@ add_action('admin_enqueue_scripts', 'cwoo_invoices_admin_scripts', 10);
 
 function cwoo_invoices_admin_scripts() {
     wp_enqueue_style('cwoo_invoices_admin_css', plugins_url('css/custom-woocommerce-invoices-admin.css', __FILE__), '1.0.0');
+    wp_enqueue_script('cwoo_invoices_admin_js', plugins_url('js/custom-woocommerce-invoices-admin.js', __FILE__), array('jquery'), '1.0.0', true);
+    wp_enqueue_media();
 }
-
 
 /* CLIENT SIDE REGISTRATION */
 add_action('wp_enqueue_scripts', 'cwoo_invoices_client_scripts', 10);
@@ -34,8 +35,8 @@ function cwoo_invoices_client_scripts() {
     wp_enqueue_style('cwoo_invoices_client_css', plugins_url('css/custom-woocommerce-invoices-client.css', __FILE__), '1.0.0');
 }
 
-
 /* --------------------------------------------------------------
-/* METABOX REGISTRATION
+/* INCLUDE ACTIONS AND HOOKS
 -------------------------------------------------------------- */
+/* METABOX REGISTRATION */
 include(plugin_dir_path(__FILE__) . 'inc/custom-woocommerce-invoices-metabox.php');

@@ -1,0 +1,87 @@
+@white: #FFF;
+@back: #f8f8f8;
+@font: #909090;
+
+.cwoo_invoices_metabox {
+    background: @back;
+
+    & h2.hndle {
+        border: 0 !important;
+        box-shadow: none !important;
+        font-size: 0.8rem !important;
+        padding: 1rem 1.5rem !important;
+        font-weight: 400;
+        color: @font;
+    }
+
+    & .inside {
+        background: @white;
+        padding: 1rem !important;
+    }
+
+
+    & .cwoo_invoices_invoices_item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        & .cwoo_add_btn {
+            position: relative;
+            height: 25px;
+            width: 25px;
+            border-radius: 100%;
+            box-shadow: none;
+            border: 0;
+
+            &:before {
+                content: ' ';
+                position: absolute;
+                top: 11px;
+                left: 7px;
+                background: black;
+                height: 2px;
+                width: 12px;
+            }
+
+            &:after {
+                content: ' ';
+                position: absolute;
+                top: 11px;
+                left: 7px;
+                background: black;
+                height: 2px;
+                width: 12px;
+                transform: rotate(90deg);
+            }
+        }
+    }
+
+    & .cwoo_invoices_add_buttons {
+        border-top: 1px solid #d8d8d8;
+        padding: 1rem 0;
+        margin: 1.5rem 0;
+        margin-bottom: 0;
+
+        & button {
+            display: inline-block;
+            text-decoration: none;
+            font-size: 13px;
+            line-height: 26px;
+            height: 28px;
+            margin: 0;
+            padding: 0 10px 1px;
+            cursor: pointer;
+            border-width: 1px;
+            border-style: solid;
+            -webkit-appearance: none;
+            border-radius: 3px;
+            white-space: nowrap;
+            box-sizing: border-box;
+            color: #555;
+            border-color: #ccc;
+            background: #f7f7f7;
+            box-shadow: 0 1px 0 #ccc;
+            vertical-align: top;
+        }
+    }
+}

@@ -1,4 +1,5 @@
-<?php 
+<?php
+
 function cwoo_invoices_metabox() {
 
     $screens = array( 'shop_order' );
@@ -11,54 +12,73 @@ function cwoo_invoices_metabox() {
             $screen
         );
     }
+
+    add_filter( 'postbox_classes_shop_order_cwoo_invoices_main', 'cwoo_invoices_metabox_classes' );
 }
 
 add_action( 'add_meta_boxes', 'cwoo_invoices_metabox' );
 
+function cwoo_invoices_metabox_classes( $classes=array() ) {
+    if( !in_array( 'cwoo_invoices_metabox', $classes ) )
+        $classes[] = 'cwoo_invoices_metabox';
+    return $classes;
+}
+
 function cwoo_invoices_main_callback($post) {
     // Add a nonce field so we can check for it later.
-    wp_nonce_field( 'global_notice_nonce', 'global_notice_nonce' );
+    wp_nonce_field( 'cwoo_invoices_nonce', 'cwoo_invoices_nonce' );
 
     $value = get_post_meta( $post->ID, '_global_notice', true );
 
-    echo '<textarea style="width:100%" id="global_notice" name="global_notice">' . esc_attr( $value ) . '</textarea>';
-} 
+    ob_start();
+    /* PERFORM COMLEX QUERY, ECHO RESULTS, ETC. */
+?>
+<div class="cwoo_invoices_inside_metabox">
+    <div class="cwoo_invoices_invoices_item">
+        <label for="">documento</label>
+        <button class="cwoo_select_btn"><i class="dashicons dashicons-visibility"></i></button>
+        <input type="hidden" name="cwoo_file" value="elid">
+        <div class="cwoo_invoices_actions">
+            <button><i class="dashicons dashicons-welcome-write-blog"></i></button><button><i class="dashicons dashicons-trash"></i></button>
+        </div>
+    </div>
+</div>
+<div class="cwoo_invoices_add_buttons">
+    <button class="cwoo_add_documents"><?php _e('Agregar Nuevo Documento'); ?></button>
+</div>
+<?php
+    $content = ob_get_contents();
+    ob_end_clean();
+
+
+    echo $content;
+}
 
 function cwoo_invoices_save_meta_box_data( $post_id ) {
 
-    // Check if our nonce is set.
-    if ( ! isset( $_POST['global_notice_nonce'] ) ) {
+    if ( ! isset( $_POST['cwoo_invoices_nonce'] ) ) {
         return;
     }
 
-    // Verify that the nonce is valid.
-    if ( ! wp_verify_nonce( $_POST['global_notice_nonce'], 'global_notice_nonce' ) ) {
+    if ( ! wp_verify_nonce( $_POST['cwoo_invoices_nonce'], 'cwoo_invoices_nonce' ) ) {
         return;
     }
 
-    // If this is an autosave, our form has not been submitted, so we don't want to do anything.
     if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
         return;
     }
 
-    // Check the user's permissions.
-    if ( isset( $_POST['post_type'] ) && 'page' == $_POST['post_type'] ) {
-
+    if ( isset( $_POST['post_type'] ) && 'shop_order' == $_POST['post_type'] ) {
         if ( ! current_user_can( 'edit_page', $post_id ) ) {
             return;
         }
-
     }
     else {
-
         if ( ! current_user_can( 'edit_post', $post_id ) ) {
             return;
         }
     }
 
-    /* OK, it's safe for us to save the data now. */
-
-    // Make sure that it is set.
     if ( ! isset( $_POST['global_notice'] ) ) {
         return;
     }
